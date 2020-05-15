@@ -1,0 +1,7 @@
+flask
+nltk
+numpy
+keras
+tensorflow==1.15.2
+
+docker run -p 5500:8501 --mount type=bind,source=/Users/adilghaffar/Documents/UEF/Thesis/ChatBot/pyCode/msg_classifier,target=/models/msg_classifier -e MODEL_NAME=msg_classifier -t tensorflow/serving

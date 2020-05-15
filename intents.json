@@ -1,0 +1,22 @@
+{"intents": 
+    [
+        {
+            "tag": "variableassign",
+            "patterns": ["tree 2 =", "= tree 2", "2 = tree"],
+            "responses": ["Wrong answer, the left-hand side of an assignment must be a variable, property or indexer and right hand side must be the value.", "Error statement, make sure assignment operator is in the middle with varible on left hand side and value on right"],
+            "context": [""]
+        },
+        {
+            "tag": "newobject",
+            "patterns": ["new fox = Fox()", "Fox() new fox =", "new Fox() fox =", "Fox() fox = new", "new Fox() = fox"],
+            "responses": ["A new expression requires (), [], or {} after type", "Keyword new needs to be after equality sign and requires (), [], or {} after type"],
+            "context": [""]
+        },
+        {
+            "tag": "functioncall",
+            "patterns": [". fox walk()", "fox walk() .", ". walk() fox", "walk() . fox"],
+            "responses": ["behaviour needs to after the class object", " . needs to be followed by behaviour "],
+            "context": [""]
+        }
+    ]
+}
