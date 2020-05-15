@@ -7,7 +7,8 @@ import json
 import random
 import tensorflow as tf
 
-from tf.keras.models import load_model
+from keras.models import load_model
+from keras.applications import inception_v3
 
 API_URL = "http://localhost:8502/v1/models/msg_classifier/versions/1:predict"
 
@@ -39,9 +40,29 @@ class Chat:
     def _predict_class(self, sentence, model):
         # filter out predictions below a threshold
         p = self._bow(sentence, self.words,show_details=False)
-        print(p)
-        print(np.array([p]))
+        arr = np.array([p])
+        inputdata = json.dumps({
+        'instances': arr.tolist()
+        })
+        inputdata=inputdata.encode('utf-8')
+        r = requests.post(API_URL, data = inputdata)
+        pred = json.loads(r.content.decode('utf-8'))
+    
+        ERROR_THRESHOLD = 0.25
+        results = [[i,r] for i,r in enumerate(pred['predictions'][0]) if r>ERROR_THRESHOLD]
+        # sort by strength of probability
+        results.sort(key=lambda x: x[1], reverse=True)
+        return_list = []
+        for r in results:
+            return_list.append({"intent": self.classes[r[0]], "probability": str(r[1])})
+        print(return_list)
+        return return_list
+
+    def _predict_class_local(self, sentence, model):
+        # filter out predictions below a threshold
+        p = self._bow(sentence, self.words,show_details=False)
         res = model.predict(np.array([p]))[0]
+        print(res)
         ERROR_THRESHOLD = 0.25
         results = [[i,r] for i,r in enumerate(res) if r>ERROR_THRESHOLD]
         # sort by strength of probability
@@ -49,7 +70,9 @@ class Chat:
         return_list = []
         for r in results:
             return_list.append({"intent": self.classes[r[0]], "probability": str(r[1])})
+        print(return_list)
         return return_list
+        
 
     def _getResponse(self, ints, intents_json):
         tag = ints[0]['intent']

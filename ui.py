@@ -2,7 +2,7 @@
 import tkinter
 from tkinter import *
 from chat import Chat
-
+bot = Chat()
 def send():
     msg = EntryBox.get("1.0",'end-1c').strip()
     EntryBox.delete("0.0",END)
@@ -12,7 +12,7 @@ def send():
         ChatLog.insert(END, "You: " + msg + '\n\n')
         ChatLog.config(foreground="#442265", font=("Verdana", 12 ))
 
-        res = chat.chatbot_response(msg)
+        res = bot.chatbot_response(msg)
         ChatLog.insert(END, "Bot: " + res + '\n\n')
 
         ChatLog.config(state=DISABLED)
