@@ -10,7 +10,7 @@ import tensorflow as tf
 from keras.models import load_model
 from keras.applications import inception_v3
 
-API_URL = "http://localhost:8502/v1/models/msg_classifier/versions/1:predict"
+API_URL = "http://localhost:5500/v1/models/msg_classifier/versions/1:predict"
 
 class Chat:
     def __init__(self):
@@ -47,7 +47,6 @@ class Chat:
         inputdata=inputdata.encode('utf-8')
         r = requests.post(API_URL, data = inputdata)
         pred = json.loads(r.content.decode('utf-8'))
-    
         ERROR_THRESHOLD = 0.25
         results = [[i,r] for i,r in enumerate(pred['predictions'][0]) if r>ERROR_THRESHOLD]
         # sort by strength of probability
