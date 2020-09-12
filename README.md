@@ -1,3 +1,7 @@
+# Project description
+
+Python chat bot that takes code satements as input and give informative feedback on compilation errors using artificial intelligent trained model.
+
 # create virtual environment
 
 python3 -m venv venv
