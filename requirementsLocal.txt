@@ -2,4 +2,4 @@ flask
 nltk
 numpy
 keras
-tensorflow==1.15.2
+tensorflow==2.7.2
